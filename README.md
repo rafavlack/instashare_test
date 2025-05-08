@@ -25,6 +25,8 @@ El sistema está basado en una arquitectura de microservicios con los siguientes
 - **Docker**: Contenerización de servicios.
 - **JUnit**: Framework para pruebas unitarias.
 - **Docker Compose**: Orquestación de los servicios en contenedores Docker.
+- **ReactJS**
+- **Tailwind CSS**
 
 ## Servicios
 

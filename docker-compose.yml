@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # Servicio de Consul
+  consul:
+    image: hashicorp/consul:1.16.1
+    container_name: consul
+    ports:
+      - "1049:8500"
+      - "8600:8600/udp"
+    command: "consul agent -server -bootstrap -ui -client=0.0.0.0 -data-dir=/consul/data"
+    volumes:
+      - consul_data_files:/consul/data
+    networks:
+      - microservices-files-network
+
+  # Servicio de Gateway
+  gateway-service:
+    build: ./gateway-service
+    container_name: gateway-service
+    ports:
+      - "1050:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/antique_store
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin.47*
+    depends_on:
+      - consul
+    networks:
+      - microservices-files-network
+    volumes:
+      - microservices_logs:/var/log/microservices
+
+  # Servicio de Auth
+  auth-service:
+    build: ./auth_service
+    container_name: auth-service
+    ports:
+      - "1051:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/archivos
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin.47*
+    depends_on:
+      - consul
+    networks:
+      - microservices-files-network
+    volumes:
+      - microservices_logs:/var/log/microservices
+
+  # Servicio de Archivos
+  file-service:
+    build: ./file_service
+    container_name: file-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - MINIO_URL=http://host.docker.internal:9000
+      - MINIO_ACCESS_KEY=TCEEiINfkrOow9UVYrO8
+      - MINIO_SECRET_KEY=qsz2MuaweOyYOuEiA6kFAswnfcsTtXG0sExg3I1C
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/archivos
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin.47*
+    depends_on:
+      - consul
+    networks:
+      - microservices-files-network
+    volumes:
+      - microservices_logs:/var/log/microservices
+
+networks:
+  microservices-files-network:
+    driver: bridge
+    name: shared-microservices-network
+
+volumes:
+  consul_data_files:
+  microservices_logs:

@@ -5,7 +5,7 @@ FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /app
 
 # Copiar el JAR generado al contenedor
-COPY target/usuarios-service-0.0.1-SNAPSHOT.jar app.jar
+COPY target/auth_service-0.0.1-SNAPSHOT.jar app.jar
 
 # Comando para ejecutar la aplicación
 ENTRYPOINT ["java", "-jar", "app.jar"]

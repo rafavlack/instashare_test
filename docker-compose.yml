@@ -16,7 +16,7 @@ services:
 
   # Servicio de Gateway
   gateway-service:
-    build: ./gateway-service
+    build: ./gateway_service
     container_name: gateway-service
     ports:
       - "1050:8080"

@@ -1,5 +1,10 @@
 # Microservices Architecture with JWT Authentication, MinIO, and PostgreSQL
 
+## URL de visualización
+
+http://82.29.57.77:1053/login
+
+
 Este proyecto implementa una arquitectura de microservicios utilizando Spring Boot, JWT para la autenticación, MinIO para almacenamiento de archivos y PostgreSQL como base de datos. El sistema está compuesto por cuatro servicios:
 
 - `auth_service` - Servicio para la autenticación de usuarios con JWT.
@@ -125,3 +130,4 @@ services:
       - minio
     networks:
       - microservices_network
+```

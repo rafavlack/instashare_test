@@ -7,7 +7,7 @@ spring:
   cloud:
     consul:
       host: consul
-      port: 1049
+      port: 8500
       discovery:
         register: true
         instance-id: ${spring.application.name}-${random.value}
@@ -19,19 +19,19 @@ spring:
           register: true
           lower-case-service-id: true
       routes:
-        - id: usuarios-service
-          uri: lb://usuarios-service
+        - id: auth-service
+          uri: lb://auth-service
           predicates:
-            - Path=/api/usuarios/**
+            - Path=/api/auth/**
           filters:
-            - RewritePath=/api/usuarios/(?<segment>.*), /api/usuarios/${segment}
+            - RewritePath=/api/auth/(?<segment>.*), /api/auth/${segment}
 
-        - id: articulos-service
-          uri: lb://articulos-service
+        - id: file-service
+          uri: lb://file-service
           predicates:
-            - Path=/api/productos/**
+            - Path=/api/archivos/**
           filters:
-            - RewritePath=/api/productos/(?<segment>.*), /api/productos/${segment}
+            - RewritePath=/api/archivos/(?<segment>.*), /api/archivos/${segment}
 
   spring:
     cloud:

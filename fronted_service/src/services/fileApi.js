@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:1050/api/archivos',
+    baseURL: 'http://gateway-service2:1050/api/archivos',
 });
 
 api.interceptors.request.use(

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const authApi = axios.create({
-    baseURL: 'http://localhost:1050/api/auth',
+    baseURL: 'http://gateway-service2:1050/api/auth',
 });
 
 export const registerUser = (formData) => {
